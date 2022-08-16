@@ -48,6 +48,20 @@ def create_path(address, train=False, aug=False, val=False):
     return data_paths
 
 
+def create_destination(val, val_path, train_path, data_paths):
+    if val:
+        parent = val_path
+    else:
+        parent = train_path
+
+    for i in range(len(data_paths)):
+        path = data_paths[i]['t1'].split("/")
+        s = path[3:-1]
+        listToStr = '/'.join([str(elem) for elem in s])
+        new_parent = os.path.join(parent, listToStr)
+        os.makedirs(new_parent)
+
+        
 # def create_path_os(address, ids, val=False):
 #     data_paths = []
 #     if not
