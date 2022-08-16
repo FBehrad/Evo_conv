@@ -1,0 +1,2 @@
+# Evolutionary_convolutional_neural_network_for_efficient_brain_tumor_segmentation
+Code of the paper "Evolutionary convolutional neural network for efficient brain tumor segmentation and overall survival prediction
