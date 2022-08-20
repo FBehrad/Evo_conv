@@ -149,7 +149,7 @@ def loss_gt(e=1e-8):
     return loss_gt_
 
 
-class My_Custom_Generator_segmentation(keras.utils.Sequence):
+class my_custom_generator_segmentation(keras.utils.Sequence):
 
     # custom generator to read a batch of data
     def __init__(self, data_paths, label_paths, batch_size):
@@ -184,3 +184,23 @@ class My_Custom_Generator_segmentation(keras.utils.Sequence):
             labels.append(y)
 
         return np.array(items), np.array(labels)
+
+    
+def get_flops(path):
+    session = tf.compat.v1.Session()
+    graph = tf.compat.v1.get_default_graph()
+
+    with graph.as_default():
+        with session.as_default():
+            model = tf.keras.models.load_model(path)
+
+            run_meta = tf.compat.v1.RunMetadata()
+            opts = tf.compat.v1.profiler.ProfileOptionBuilder.float_operation()
+
+            # We use the Keras session graph in the call to the profiler.
+            flops = tf.compat.v1.profiler.profile(graph=graph,
+                                                  run_meta=run_meta, cmd='op', options=opts)
+
+            return flops.total_float_ops
+
+
