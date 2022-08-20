@@ -6,6 +6,7 @@ from tensorflow.keras.callbacks import ModelCheckpoint
 import glob
 import re
 from tensorflow import keras, math
+import os
 
 
 def extract_dataset(addr, target):
@@ -62,23 +63,29 @@ def create_destination(val, val_path, train_path, data_paths):
         os.makedirs(new_parent)
 
         
-# def create_path_os(address, ids, val=False):
-#     data_paths = []
-#     if not
-#     add = address + '/*GG/'
-#     for i, patient_id in enumerate(ids):
-#         data_path = {}
-#         t1_add = glob.glob(add + patient_id + '/*t1.nii.gz')[0]
-#         t2_add = glob.glob(add + patient_id + '/*t2.nii.gz')[0]
-#         t1ce_add = glob.glob(add + patient_id + '/*t1ce.nii.gz')[0]
-#         flair_add = glob.glob(add + patient_id + '/*flair.nii.gz')[0]
-#         seg_add = glob.glob(add + patient_id + '/*seg.nii.gz')[0]
-#         data_path['flair'] = flair_add
-#         data_path['t1'] = t1_add
-#         data_path['t2'] = t2_add
-#         data_path['t1ce'] = t1ce_add
-#         data_path['seg'] = seg_add
-#         data_paths.append(data_path)
+def create_path_os(address, ids, val=False):
+    data_paths = []
+    if not val:
+        add = address + '/*/*/*GG/'
+    else:
+        add = address + '/*/*/'
+
+    for i, patient_id in enumerate(ids):
+        data_path = {}
+        t1_add = glob.glob(add + patient_id + '/*t1.nii.gz')[0]
+        t2_add = glob.glob(add + patient_id + '/*t2.nii.gz')[0]
+        t1ce_add = glob.glob(add + patient_id + '/*t1ce.nii.gz')[0]
+        flair_add = glob.glob(add + patient_id + '/*flair.nii.gz')[0]
+        seg_add = glob.glob(add + patient_id + '/*seg.nii.gz')[0]
+        data_path['flair'] = flair_add
+        data_path['t1'] = t1_add
+        data_path['t2'] = t2_add
+        data_path['t1ce'] = t1ce_add
+        data_path['seg'] = seg_add
+        data_paths.append(data_path)
+
+    return data_paths
+
 
 def create_batch_of_path(data_paths):
     labels = []
