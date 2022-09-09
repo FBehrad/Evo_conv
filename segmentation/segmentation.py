@@ -34,10 +34,10 @@ def training(model, checkpoint_best, reduce_lr, data_paths, batch_size=1, epochs
             label = labels[i]
             v_labels_paths.append(label)
 
-    my_training_batch_generator = My_Custom_Generator_segmentation(train_paths, t_labels_paths, batch_size)
-    validation_generator = My_Custom_Generator_segmentation(val_paths, v_labels_paths, batch_size)
+        my_training_batch_generator = My_Custom_Generator_segmentation(train_paths, t_labels_paths, batch_size)
+        validation_generator = My_Custom_Generator_segmentation(val_paths, v_labels_paths, batch_size)
 
-    history = model.fit(my_training_batch_generator, validation_data=validation_generator,
+        history = model.fit(my_training_batch_generator, validation_data=validation_generator,
                         steps_per_epoch=int(len(train_paths) // batch_size),
                         epochs=epochs_per_fold,
                         verbose=1,
