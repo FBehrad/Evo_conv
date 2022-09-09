@@ -77,8 +77,6 @@ def main():
     checkpoint_best = save_best_model(checkpoint_path)
     reduce_lr = LearningRateScheduler(scheduler)
     model = build_model(input_shape=(4,128, 128, 128), output_channels=3, gradient_accumulation='True', n_gradients=8)
-    if resume_training:
-        model.load_weights(best_model)
     model.compile(
         optimizer=Adam(lr=float(config_file['train_settings']['lr'])),
         loss=[loss_gt()],
