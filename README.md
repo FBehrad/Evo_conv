@@ -16,7 +16,7 @@ pip install -r requirements.txt
 4. Run augmentation.py.
 5. Download model's weights from [this link](https://drive.google.com/file/d/1GFlbF2yiVdJeWddrSxRRELiTytrxeEAq/view?usp=sharing) and put it next to config.yaml.
 6. Extract best_model.zip into best_model folder.
-7. Change config.yaml if you want.
+7. Change config.yaml to modify hyperparameters.
 8. Run segmentation.py.
 
 
