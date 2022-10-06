@@ -11,7 +11,7 @@ Segmentation
 ```
 pip install -r requirements.txt 
 ```
-2. Put BraTS 2018 training and validation dataset next to config.yaml.
+2. Put [BraTS 2018 training and validation dataset](https://ipp.cbica.upenn.edu/) next to config.yaml.
 3. Run preprocessing.py.
 4. Run augmentation.py.
 5. Download model's weights from ... and put it next to config.yaml.
