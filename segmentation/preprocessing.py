@@ -182,7 +182,7 @@ if __name__ == '__main__':
 
     # Create directories to save results
     if not os.path.exists('../preprocessed_data'):
-        create_destination(data_paths, val=False)  # create directories for training data
+        create_destination(data_paths, train=True)  # create directories for training data
     if not os.path.exists('../val_preprcessed_data'):
         create_destination(data_paths_val, val=True) # create directories for validation data
 
