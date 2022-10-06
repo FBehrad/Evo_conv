@@ -1,4 +1,4 @@
-import SimpleITK as sitk
+import SimpleITK as sitk  # important package for medical imaging
 import elasticdeform
 import numpy as np
 import os
@@ -20,7 +20,7 @@ def brightness_shift(X, gain, gamma):
     return im_new
 
 
-def brightness(data_paths_aug):
+def brightness(data_paths_aug, i):
     # create directories
     path = data_paths_aug[i]['t1'].split('\\')
     parent = '../augmented_data'
@@ -70,7 +70,7 @@ def elastic(X, y):
     return Xel, yel
 
 
-def elastic_deformation(data_paths_aug):
+def elastic_deformation(data_paths_aug, i):
     # create directories
     path = data_paths_aug[i]['t1'].split('\\')
     parent = '../augmented_data'
@@ -107,7 +107,7 @@ def elastic_deformation(data_paths_aug):
 
 
 if __name__ == '__main__':
-    data_paths_aug = create_path('../preprocessed_data', aug=True)
+    data_paths_aug = create_path('../preprocessed_data', train=True)
     path = open('../config.yaml', 'r')
     config = yaml.safe_load(path)
     aug = config['data_augmentation']
@@ -115,8 +115,8 @@ if __name__ == '__main__':
         if aug['brightness']['enable']:
             br = np.random.rand()
             if br <= aug['brightness']['limit']:
-                brightness(data_paths_aug)
+                brightness(data_paths_aug, i)
         if aug['elastic_deform']['enable']:
             el = np.random.rand()
             if el <= aug['elastic_deform']['limit']:
-                elastic_deformation(data_paths_aug)
+                elastic_deformation(data_paths_aug, i)
