@@ -2,11 +2,14 @@
 ---
 
 
+Clone the repo: ```git clone https://github.com/FBehrad/Evo_conv.git ```
+
+
 Segmentation 
 ---
 1. Intall requirements.
 ```
-pip install requirements
+pip install -r requirements.txt 
 ```
 2. Put BraTS 2018 training and validation dataset next to config.yaml.
 3. Run preprocessing.py.
