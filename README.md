@@ -14,7 +14,7 @@ pip install -r requirements.txt
 2. Put [BraTS 2018 training and validation dataset](https://ipp.cbica.upenn.edu/) next to config.yaml.
 3. Run preprocessing.py.
 4. Run augmentation.py.
-5. Download model's weights from ... and put it next to config.yaml.
+5. Download model's weights from [this link](https://drive.google.com/file/d/1GFlbF2yiVdJeWddrSxRRELiTytrxeEAq/view?usp=sharing) and put it next to config.yaml.
 6. Extract best_model.zip into best_model folder.
 7. Change config.yaml if you want.
 8. Run segmentation.py.
