@@ -1,17 +1,11 @@
-from selectors import EpollSelector
-from utils import extract_dataset, read_img_sitk, create_path
+from utils import extract_dataset, read_img_sitk, create_path, create_destination
 import numpy as np
 from radiomics import featureextractor
 import six
-from skimage.exposure import histogram
-from skimage.util import img_as_ubyte
-import matplotlib.pyplot as plt
-from skimage import exposure, util
 import SimpleITK as sitk
 import os
 import time
-import pandas as pd
-from utils import create_destination
+import yaml
 
 
 def radiomics_features(input_image, input_mask):
@@ -47,7 +41,7 @@ def crop_images(centre_of_mass, optimal_roi, image_size, dim):
         end = opt_roi
     elif centre + roi >= size:
         end = size - 1
-        start = end - roi
+        start = end - opt_roi
     else:
         start = centre - roi
         end = centre + roi
@@ -103,7 +97,9 @@ def Adativehistogram_equalization(img, alpha, beta):
     return equalized_volume
 
 
-def preprocessing_segmentation(data_paths, settings, val):
+def preprocessing(data_paths, config, val):
+    image_size = [240, 240, 155]
+    optimal_roi = config['preprocessing_seg']['optimal_roi']
     start_time = time.time()
     for i in range(len(data_paths)):
         if not val:
@@ -114,11 +110,13 @@ def preprocessing_segmentation(data_paths, settings, val):
             img = read_img_sitk(data_paths[i][modal])
             if modal != 'seg':
                 if val:
+                    parent = '../val_preprcessed_data'
                     array_form = sitk.GetArrayFromImage(img)
                     # The model input must be factors of 16
                     new_array_form = np.pad(array_form, ((5, 0), (0, 0), (0, 0)), 'constant', constant_values=0)
                     image = sitk.GetImageFromArray(new_array_form)
                 else:
+                    parent = '../preprocessed_data'
                     start_x, end_x = crop_images(centre_of_mass, optimal_roi, image_size, dim=0)
                     start_y, end_y = crop_images(centre_of_mass, optimal_roi, image_size, dim=1)
                     start_z, end_z = crop_images(centre_of_mass, optimal_roi, image_size, dim=2)
@@ -126,19 +124,22 @@ def preprocessing_segmentation(data_paths, settings, val):
 
                 rescaled_img = rescale_image(image)
 
-                if settings['min_max']:
+                if config['preprocessing_seg']['min_max']:
                     image = max_min_normalization(rescaled_img)
                 else:
                     image = mean_normalization(rescaled_img)
 
-                if settings['bias_correction']:
+                if config['preprocessing_seg']['bias_correction']:
                     image = n4_bias_correction(image)
 
-                if settings['adaptive']:
+                if config['preprocessing_seg']['adaptive']:
                     image = Adativehistogram_equalization(image, 1, 1)
 
-                path = data_paths[i][modal].split('/')
-                intermediate_folders = path[3:]
+                path = data_paths[i][modal].split('\\')
+                if val:
+                    intermediate_folders = path[-2:]
+                else:
+                    intermediate_folders = path[-3:]
                 listToStr = '/'.join([str(elem) for elem in intermediate_folders])
                 final_path = os.path.join(parent, listToStr)
                 sitk.WriteImage(image, final_path)
@@ -147,8 +148,11 @@ def preprocessing_segmentation(data_paths, settings, val):
                 start_y, end_y = crop_images(centre_of_mass, optimal_roi, image_size, dim=1)
                 start_z, end_z = crop_images(centre_of_mass, optimal_roi, image_size, dim=2)
                 image = img[start_x:end_x, start_y:end_y, start_z:end_z]
-                path = data_paths[i][modal].split('/')
-                intermediate_folders = path[3:]
+                path = data_paths[i][modal].split('\\')
+                if val:
+                    intermediate_folders = path[-2:]
+                else:
+                    intermediate_folders = path[-3:]
                 listToStr = '/'.join([str(elem) for elem in intermediate_folders])
                 final_path = os.path.join(parent, listToStr)
                 sitk.WriteImage(image, final_path)
@@ -161,33 +165,26 @@ def preprocessing_segmentation(data_paths, settings, val):
 
 
 if __name__ == '__main__':
-    training_data = './MICCAI_BraTS_2018_Data_Training.zip'
-    validation_data = './MICCAI_BraTS_2018_Data_Validation.zip'
-    train_path = './preprocessed_data'
-    val_path = './val_preprcessed_data'
-    val = False
-    settings['min_max'] = False
-    settings['bias_correction'] = False
-    settings['adaptive'] = False
-    optimal_roi = [128, 128, 128]
-    image_size = [240, 240, 155]
-    survival_path = './survival_data.csv'
-    extract_dataset(training_data, 'Training')
-    extract_dataset(validation_data, 'Validation')
-    os_time = False
+    path = open('../config.yaml', 'r')
+    config = yaml.safe_load(path)
 
-    if os_time:
-        survival_data = pd.read_csv(survival_path)
-        ids = survival_data[:, 'BraTS18ID']
+    training_data = config['path']['training_set']
+    validation_data = config['path']['validation_set']
 
-    if val:
-        data_paths = create_path('./Validation', val=True)
-    else:
-        data_paths = create_path('./Training', train=True)
+    if not os.path.exists('../Training'):
+        extract_dataset(training_data, '../Training')
+
+    if not os.path.exists('../Validation'):
+        extract_dataset(validation_data, '../Validation')
+
+    data_paths = create_path('../Training', train=True)
+    data_paths_val = create_path('../Validation', val=True)
 
     # Create directories to save results
-    create_destination(val, val_path, train_path, data_paths)
+    if not os.path.exists('../preprocessed_data'):
+        create_destination(data_paths, val=False)  # create directories for training data
+    if not os.path.exists('../val_preprcessed_data'):
+        create_destination(data_paths_val, val=True) # create directories for validation data
 
-    if not os_time:
-        preprocessing_segmentation(data_paths, settings, val)
-
+    preprocessing(data_paths, config, val=False)
+    preprocessing(data_paths_val, config, val=True)
