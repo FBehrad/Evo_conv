@@ -20,3 +20,4 @@ PyYAML
 argparse
 scikit-image
 paretoset
+elasticdeform
