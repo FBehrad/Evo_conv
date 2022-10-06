@@ -50,13 +50,13 @@ def training(model, callbacks, data_paths, batch_size=1, epochs_per_fold=4, nb_f
 
 
 def main():
-    path = open('/content/config.yaml', 'r')
+    path = open('../config.yaml', 'r')
     config = yaml.safe_load(path)
     model_param = config['model']
     input_size = config['preprocessing_seg']['optimal_roi']
     input_size = (4, input_size[0], input_size[1], input_size[2])
 
-    data_paths = create_path('/content/preprocessed_data', train=True) + create_path('/content/augmented_data', aug=True)
+    data_paths = create_path('../preprocessed_data', train=True) + create_path('../augmented_data', aug=True)
     model = build_model(input_shape=input_size,
                         gradient_accumulation=model_param['accumulated_grad']['enable'],
                         n_gradients=model_param['accumulated_grad']['num_batch'])
@@ -66,7 +66,7 @@ def main():
 
     checkpoint_best = save_best_model(config['path']['checkpoint'])
     reduce_lr = LearningRateScheduler(scheduler)
-    log_dir = "/content/logs/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    log_dir = "../logs/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
 
     model.compile(
