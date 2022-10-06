@@ -1,0 +1,35 @@
+path:
+  training_set: ../MICCAI_BraTS_2018_Data_Training.zip
+  validation_set: ../MICCAI_BraTS_2018_Data_Validation.zip
+  best_model: ../best_model/model # this is used for resuming the training
+  checkpoint: ../checkpoint/model # to save best model in the training process
+  last_model: ../checkpoint/last/model # to save last model in the training process
+
+preprocessing_seg: # preprocessing during segmentation
+  min_max: false
+  bias_correction: false
+  adaptive: false
+  optimal_roi:
+    - 128  # dim 0
+    - 128  # dim 1
+    - 128  # dim 2
+
+data_augmentation:
+  brightness:
+    enable: true
+    limit: 0.6
+  elastic_deform:
+    enable: true
+    limit: 0.6
+
+model:
+  accumulated_grad:
+    enable: true
+    num_batch: 8
+
+training:
+  resume_training: true
+  lr: 1e-4
+  batch_size: 1
+  number_fold: 5  # K fold cross validation
+  epochs_per_fold: 1 # number of epochs per fold
