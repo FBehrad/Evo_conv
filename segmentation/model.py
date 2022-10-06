@@ -1,8 +1,9 @@
-from tensorflow.keras.layers import Conv3D, Activation, Input, Add, SpatialDropout3D, UpSampling3D
-from tensorflow.keras import Model
-from tensorflow.keras.regularizers import l2
+from keras.layers import Conv3D, Activation, Input, Add, SpatialDropout3D, UpSampling3D
+from keras import Model
+from keras.regularizers import l2
 import tensorflow_addons as tfa
 import tensorflow as tf
+import yaml
 
 
 class CustomModel(tf.keras.Model):
@@ -284,3 +285,15 @@ def build_model(input_shape=(4, 128, 128, 128), output_channels=3, gradient_accu
     else:
         model = Model(inp, output)
     return model
+
+
+if __name__ == '__main__':
+    path = open('../config.yaml', 'r')
+    config = yaml.safe_load(path)
+    input_size = config['preprocessing_seg']['optimal_roi']
+    input_size = (4, input_size[0], input_size[1], input_size[2])
+    model_param = config['model']
+    model = build_model(input_shape=input_size,
+                        gradient_accumulation=model_param['accumulated_grad']['enable'],
+                        n_gradients=model_param['accumulated_grad']['num_batch'])
+    model.summary()
