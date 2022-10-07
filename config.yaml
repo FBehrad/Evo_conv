@@ -33,3 +33,12 @@ training:
   batch_size: 1
   number_fold: 5  # K fold cross validation
   epochs_per_fold: 1 # number of epochs per fold
+
+genetic:
+  w1: 0.8  # weight for accuracy
+  w2: -0.2  # weight for run time
+  pc: 0.9  # higher cross over probability --> more exploitation
+  pm: 0.1  # higher mutation probability --> more exploration
+  itr_threshold: 25
+  gen_threshold: 4  # if the best member didn't change, this parameter would stop the algorithm
+  version: third # quarter vs third : how much of the model should be pruned
