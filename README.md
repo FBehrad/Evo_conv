@@ -23,3 +23,6 @@ pip install -r requirements.txt
 11. Put Stats_Validation_final.csv in the main directory.
 12. Run post_process.py and upload the new segmentation masks into the above link to get the new results. (Optional)
 
+Pruning 
+---
+We used [keras-surgeaon](https://github.com/BenWhetton/keras-surgeon) to prune our network. However, Keras-surgeon does not support group normalization, so we have changed its code slightly. The new version is available in the pruning directory.
