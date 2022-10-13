@@ -1,7 +1,5 @@
-# prediction
 import os
 import numpy as np
-import time
 from utils import read_img_nii, create_path
 from model import build_model
 import SimpleITK as sitk
