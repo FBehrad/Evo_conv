@@ -29,3 +29,21 @@ We used [keras-surgeaon](https://github.com/BenWhetton/keras-surgeon) to prune o
 
 1. Run pruning.py.
 2. Run prediction.py.
+
+Citation 
+---
+If you found this code helpful, please consider citing:
+```
+@article{BEHRAD2022118996,
+title = {Evolutionary convolutional neural network for efficient brain tumor segmentation and overall survival prediction},
+journal = {Expert Systems with Applications},
+pages = {118996},
+year = {2022},
+issn = {0957-4174},
+doi = {https://doi.org/10.1016/j.eswa.2022.118996},
+url = {https://www.sciencedirect.com/science/article/pii/S0957417422020140},
+author = {Fatemeh Behrad and Mohammad {Saniee Abadeh}},
+keywords = {Deep learning, Genetic algorithm, Network compression},
+abstract = {The most common and aggressive malignant brain tumor in adults is glioma, which leads to short life expectancy. A reliable and efficient automatic segmentation method is beneficial for clinical practice. Deep neural networks have achieved great success in brain tumor segmentation recently. However, their computational complexity and storage costs hinder their deployment in real-time applications or on resource-constrained devices in clinics. Network pruning, which has attracted many researchers recently, alleviates this limitation by removing trivial parameters of the network. Network pruning is challenging in the medical field because pruning should not degrade the performance of models. As a result, it is vital to choose unimportant parts of networks correctly. In this paper, we employ the genetic algorithm to identify redundant filters of our U-Net-based network. We consider filter pruning a multiobjective optimization problem in which performance and inference time are optimized simultaneously. Then, we use our compressed network for brain tumor segmentation. Predicted segmentation masks are often used to predict patients' survival time. Although several studies have recently achieved good results, they require different feature engineering techniques to extract suitable features, which is difficult and time-consuming. To tackle this problem, we easily extract deep features from the endpoint of the encoder of our compact network and use them for survival prediction. Regarding the popularity of U-Net-based models for brain tumor segmentation, many researchers can employ our technique to predict the survival time without spending lots of time on feature engineering. The experimental results on the BraTS 2018 dataset demonstrate that filter pruning is a reliable technique to reduce the storage cost and accelerate the network during inference while maintaining performance. Furthermore, our survival time prediction technique achieves high efficiency compared to state-of-the-art methods. Preprocessed data, the full implementation of the project, and the trained networks are available at https://github.com/Fbehrad/Evo_conv.}
+}
+```
