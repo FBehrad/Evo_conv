@@ -14,7 +14,7 @@ if __name__ == '__main__':
         path = '../Pruned_a_third_model.h5'
     else:
         path = '../Pruned_a_forth_model.h5'
-    pruned_model = tf.keras.models.load_model('../Pruned_a_forth_model.h5',
+    pruned_model = tf.keras.models.load_model(path,
                                               custom_objects={"loss_gt_": loss_gt(),
                                                               'dice_coefficient': dice_coefficient})
 
