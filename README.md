@@ -26,3 +26,6 @@ pip install -r requirements.txt
 Pruning 
 ---
 We used [keras-surgeaon](https://github.com/BenWhetton/keras-surgeon) to prune our network. However, Keras-surgeon does not support group normalization, so we have changed its code slightly. The new version is available in the pruning directory.
+
+1. Run pruning.py.
+2. Run prediction.py.
