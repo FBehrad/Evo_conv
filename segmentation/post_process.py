@@ -43,7 +43,7 @@ if __name__ == '__main__':
     for i, patient_id in enumerate(ids):
         print(i)
         print(patient_id)
-        label = read_img_sitk(os.path.join('/content/submissions', masks[i]))
+        label = read_img_sitk(os.path.join('../submissions', masks[i]))
         np_label = sitk.GetArrayFromImage(label)
         et = np_label == 4
         et = np.array(et, dtype=np.float32)
