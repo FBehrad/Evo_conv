@@ -21,3 +21,4 @@ argparse
 scikit-image
 paretoset
 elasticdeform
+paretoset
