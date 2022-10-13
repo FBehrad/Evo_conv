@@ -31,6 +31,10 @@ We used [keras-surgeaon](https://github.com/BenWhetton/keras-surgeon) to prune o
 1. Run pruning.py.
 2. Run prediction.py.
 
+OS 
+---
+1. Run preprocessing.py.
+
 Citation 
 ---
 If you found this code helpful, please consider citing:
