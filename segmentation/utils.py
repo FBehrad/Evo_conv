@@ -50,18 +50,24 @@ def create_path(address, train=False, aug=False, val=False):
     return data_paths
 
 
-def create_destination(data_paths, val=False, train=False):
+def create_destination(data_paths, val=False, train=False, os_train=False, os_val=False):
     if val:
         parent = '../val_preprcessed_data'
+
     if train:
         parent = '../preprocessed_data'
 
+    if os_train:
+        parent = '../preprocessed_os_data'
+
+    if os_val:
+        parent = '../val_preprocessed_os_data'
     for i in range(len(data_paths)):
         path = data_paths[i]['t1'].split("\\")
-        if val:
+        if val or os_val:
             intermediate = path[-2]
             new_parent = os.path.join(parent, intermediate)
-        if train:
+        if train or os_train:
             intermediate = path[-3:-1]
             listToStr = '/'.join([str(elem) for elem in intermediate])
             new_parent = os.path.join(parent, listToStr)
