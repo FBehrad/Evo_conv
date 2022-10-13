@@ -2,10 +2,10 @@ import random
 import tensorflow as tf
 import math
 import numpy as np
-# from segmentation.utils import loss_gt, dice_coefficient
+from segmentation.utils import loss_gt, dice_coefficient
 import tensorflow.keras.backend as K
 from tensorflow.keras.optimizers import Adam
-# from keras_surgeon import delete_channels
+from keras_surgeon import delete_channels
 import time
 import pandas as pd
 from paretoset import paretoset
