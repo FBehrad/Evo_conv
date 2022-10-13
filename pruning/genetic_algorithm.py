@@ -1,10 +1,11 @@
 import random
+import tensorflow as tf
 import math
 import numpy as np
-from utils import loss_gt, dice_coefficient
+# from segmentation.utils import loss_gt, dice_coefficient
 import tensorflow.keras.backend as K
 from tensorflow.keras.optimizers import Adam
-from keras_surgeon import delete_channels
+# from keras_surgeon import delete_channels
 import time
 import pandas as pd
 from paretoset import paretoset
@@ -249,11 +250,10 @@ def one_point_cross_over(population_size, selected_pop, pc, evaluated_pop, chrom
     for i in cr_parents:
         idx1 = i[0]
         idx2 = i[1]
-        parent1 = evaluated_pop[idx1][0].tolist()
-        parent2 = evaluated_pop[idx2][0].tolist()
+        parent1 = evaluated_pop[idx1].tolist()
+        parent2 = evaluated_pop[idx2].tolist()
         l = int(chromosome_len / 8)
         point = random.randint(l, 3 * l)  # to ensure that chromosomes changes
-        # print('Point',point)
         child1 = parent1[:point] + parent2[point:]
         child2 = parent2[:point] + parent1[point:]
         # print('Members')
