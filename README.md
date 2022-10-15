@@ -1,6 +1,6 @@
 **Evolutionary convolutional neural network for efficient brain tumor segmentation and overall survival prediction**
 ---
-+ Read the paper [here](https://doi.org/10.1016/j.eswa.2022.118996).
++ Read the paper [here](https://www.sciencedirect.com/science/article/abs/pii/S0957417422020140).
 
 
 ---
