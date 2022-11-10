@@ -33,7 +33,7 @@ We used [keras-surgeaon](https://github.com/BenWhetton/keras-surgeon) to prune o
 
 OS 
 ---
-1. Run preprocessing.py.
+TO DO
 
 Citation 
 ---
